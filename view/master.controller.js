@@ -75,7 +75,7 @@ sap.ui.controller("sap.ui.company.view.master", {
         //Create an instance of the table control
         var oTable = new sap.ui.table.Table({
         	title: obj.deptName+" "+obj.num,
-        	visibleRowCount: 10
+        	visibleRowCount: 12
         });
         //Define the columns and the control templates to be used
         var oColumn = new sap.ui.table.Column({

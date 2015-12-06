@@ -119,26 +119,26 @@ sap.ui.controller("sap.ui.company.view.master", {
         	    
         	    
                  var depArray1 =
-{name:"人力资源部",
-	list:[
-// 	{name:"安健环部",list:[{name:"新组织单位",oType:"O"}],
+// {name:"人力资源部",
+// 	list:[
+// // 	{name:"安健环部",list:[{name:"新组织单位",oType:"O"}],
+// // 	oType:"O"}
+// 	{name:"安健环部",list:[{name:"计划发展部1",
+// 		tables:[{gangwei:"副总经理1",geshu:"1"},{gangwei:"副主任",geshu:"1"},{gangwei:"计划投资专职",geshu:"1"},{gangwei:"统计专职",geshu:"1"}],
+// 	oType:"O"}],
 // 	oType:"O"}
-	{name:"安健环部",list:[{name:"计划发展部1",
-		tables:[{gangwei:"副总经理1",geshu:"1"},{gangwei:"副主任",geshu:"1"},{gangwei:"计划投资专职",geshu:"1"},{gangwei:"统计专职",geshu:"1"}],
-	oType:"O"}],
-	oType:"O"}
 
-	,
-	{name:"计划发展部1",
-		tables:[{gangwei:"副总经理1",geshu:"1"},{gangwei:"副主任",geshu:"1"},{gangwei:"计划投资专职",geshu:"1"},{gangwei:"统计专职",geshu:"1"}],
-	oType:"O"}
-	],
-oType:"O"};
-		          //  {name:"abc", list:[
-            //     	{name:"总经理工作部",list:[{name:"二级部门1",list:[{name:"三级子部门1",tables:[{gangwei:"q3","geShu":"2"},{gangwei:"q32","geShu":"3"}]}]},{name:"二级部门2",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"}]}],oType:"O"},
-            //     	{name:"人力资源部",list:[{name:"人资2"},{name:"人资3"}],oType:"O"},
-            //     	{name:"燃料部",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"},],oType:"O"}
-            //     ]};
+// 	,
+// 	{name:"计划发展部1",
+// 		tables:[{gangwei:"副总经理1",geshu:"1"},{gangwei:"副主任",geshu:"1"},{gangwei:"计划投资专职",geshu:"1"},{gangwei:"统计专职",geshu:"1"}],
+// 	oType:"O"}
+// 	],
+// oType:"O"};
+		            {name:"abc", list:[
+                	{name:"总经理工作部",list:[{name:"二级部门1",list:[{name:"三级子部门1",tables:[{gangwei:"q3","geShu":"2"},{gangwei:"q32","geShu":"3"}]}]},{name:"二级部门2",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"}]}],oType:"O"},
+                	{name:"人力资源部",list:[{name:"人资2"},{name:"人资3"}],oType:"O"},
+                	{name:"燃料部",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"},],oType:"O"}
+                ]};
             // var depArray1=
                     
                 var oModel = new sap.ui.model.json.JSONModel();
@@ -259,34 +259,21 @@ oType:"O"};
                         if(list!=undefined){
                             html+='<div class="line-v"><span></span></div><div class="strt-block" >';
                             for(var k=0;k<list.length;k++){
-                                var list3 = list[k].list;
+                                
                                 if(k==0){
                                     if(list.length==1){
                                         html+='<div class="strt-part"><span class="line-h"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                     }else{
                                         html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                     }
-                                    // html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
-                                    // if(list3!=undefined){
-                                    //     html+='<div class="line-v"><span></span></div><div class="strt-block" >';
-                                    //     for(var m=0;m<list3.length;m++){
-                                    //       if(m==0){
-                                    //             html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
-                                    //         }else if(m==list3.length-1){
-                                    //             html+='<div class="strt-part"><span class="line-h line-h-l"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
-                                    //         }else{
-                                    //             html+='<div class="strt-part"><span class="line-h line-h-c"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
- 
-                                    //         }
-                                    //     }
-                                    //     html+='</div>';
-                                    // }
+                                    var list3 = list[k].list;
                                     // console.log(html);
                                 }else if(k==list.length-1){
                                         html+='<div class="strt-part"><span class="line-h line-h-l"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                 }else{
                                         html+='<div class="strt-part"><span class="line-h line-h-c"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                 }
+                                
                             }
                             html+='</div>';
                         }
@@ -296,7 +283,7 @@ oType:"O"};
                             html+='<div class="line-v"><span></span></div><div class="strt-block" >';
                             for(var k=0;k<list.length;k++){
                                 if(k==0){
-                                html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
+                                    html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                 }else if(k==list.length-1){
                                         html+='<div class="strt-part"><span class="line-h line-h-l"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                 }else{
@@ -351,6 +338,31 @@ oType:"O"};
                         }
                     }
                 }        
+	},
+	drawList3:function(html,list3,i,k){
+	    console.log(list3);
+	    if(list3!=undefined){
+            html+='<div class="line-v"><span></span></div><div class="strt-block" >';
+            for(var m=0;m<list3.length;m++){
+                if(m==0){
+                    if(list3.length==1){
+                            html+='<div class="strt-part"><span class="line-h"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
+                    }else{
+                        html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
+                                            
+                    }
+                }else if(m==list3.length-1){
+                    html+='<div class="strt-part"><span class="line-h line-h-l"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
+                }else{
+                    html+='<div class="strt-part"><span class="line-h line-h-c"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
+ 
+                                            // }
+                }
+                                        
+            }   
+            html+='</div>';
+	    }
+        	    
 	},
 	_drawPanel:function(divIndex2,divIndex3,divIndex4,divIndex5,obj){
 	    console.log(obj.name);

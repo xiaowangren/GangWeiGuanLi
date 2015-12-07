@@ -135,7 +135,7 @@ sap.ui.controller("sap.ui.company.view.master", {
 // 	],
 // oType:"O"};
 		            {name:"abc", list:[
-                	{name:"总经理工作部",list:[{name:"二级部门1",list:[{name:"三级子部门1",tables:[{gangwei:"q3","geShu":"2"},{gangwei:"q32","geShu":"3"}]}]},{name:"二级部门2",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"}]}],oType:"O"},
+                	{name:"总经理工作部",list:[{name:"二级部门1",list:[{name:"三级子部门1",tables:[{gangwei:"q3","geShu":"2"},{gangwei:"q32","geShu":"3"}]}]},],oType:"O"},//,{name:"二级部门2",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"}]}
                 	{name:"人力资源部",list:[{name:"人资2"},{name:"人资3"}],oType:"O"},
                 	{name:"燃料部",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"},],oType:"O"}
                 ]};
@@ -215,7 +215,6 @@ sap.ui.controller("sap.ui.company.view.master", {
         // $("#__table2").empty();
         // $("#__table2").destory();
         if(divIndex3==999&&divIndex4==999&&divIndex5==999){
-            // standardListItem.placeAt("com_content_table_"+divIndex2);
             oTable.placeAt("com_content_table_"+divIndex2);
 	    }
 	    if(divIndex4==999&&divIndex5==999&&divIndex3!=999){
@@ -227,7 +226,6 @@ sap.ui.controller("sap.ui.company.view.master", {
         if(divIndex4!=999&&divIndex5!=999&&divIndex3!=999){
 	        oTable.placeAt("com_content_table_"+divIndex2+"_"+divIndex3+"_"+divIndex4+"_"+divIndex5);
 	    } 
-        // oTable.placeAt("com_content_table_"+divIndex2);
 	},
 	_drawDiv:function(depArray,div){
 	            var html = "";
@@ -267,6 +265,22 @@ sap.ui.controller("sap.ui.company.view.master", {
                                         html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                     }
                                     var list3 = list[k].list;
+                                    if(list3!=undefined){
+                                        html+='<div class="line-v"><span></span></div><div class="strt-block" >';
+                                        if(list3.length==1){
+                                            for(var m=0;m<list3.length;m++){
+                                                if(m==0){
+                                                    if(list3.length==1){
+                                                        html+='<div class="strt-part"><span class="line-h"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
+                                                    }else{
+                                                        html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
+                                                    }
+                                                }
+                                            }
+                                            
+                                        }
+                                        html+='</div>';
+                                    }
                                     // console.log(html);
                                 }else if(k==list.length-1){
                                         html+='<div class="strt-part"><span class="line-h line-h-l"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
@@ -310,6 +324,7 @@ sap.ui.controller("sap.ui.company.view.master", {
                     html+='</div>';
                     
                 }
+                console.log(html);
                 $('#strt_block_table').html(html);
                 // console.log(html);
                 for(var j=0;j<depArray.length;j++){
@@ -365,7 +380,7 @@ sap.ui.controller("sap.ui.company.view.master", {
         	    
 	},
 	_drawPanel:function(divIndex2,divIndex3,divIndex4,divIndex5,obj){
-	    console.log(obj.name);
+	   // console.log(obj.name);
 	    var standardListItem = new sap.m.StandardListItem({title:obj.name});
 	    if(divIndex2==999&&divIndex3==999&&divIndex4==999&&divIndex5==999){
 	        standardListItem.placeAt("nameHead");

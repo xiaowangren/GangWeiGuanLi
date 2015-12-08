@@ -83,7 +83,7 @@ sap.ui.controller("sap.ui.company.view.master", {
         	    var day = dateValue.substring(8,10);
         	    var dateNew = year+month+day;
         	    var bianHao = sap.ui.getCore().byId("input0").getValue();
-    //             //配置服务器
+                //配置服务器
 				// var sServiceUrl = "/sap/opu/odata/SAP/ZHRMAP_SRV/";
     //             var oModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true);
     //             sap.ui.getCore().setModel(oModel);
@@ -92,23 +92,7 @@ sap.ui.controller("sap.ui.company.view.master", {
     //             mParameters['async'] = true;
     //                 mParameters['success'] = jQuery.proxy(function(data) {
     //                     var results = data.results;
-    //                     var jsonstr="[]";
-    //                     var jsonarray = eval('('+jsonstr+')');
-                        
-    //                     for(var i=0;i<results.length;i++){
-    //                         var arr  = null;
-    //                         if(results[i].Level!="0000"){
-    //                             if(results[i].Otype=="O"){
-    //                                 arr={
-    //                                     name:results[i].Name
-    //                                 }
-    //                                 jsonarray.push(arr);
-    //                             }else{
-                                    
-    //                             }
-    //                         }
-    //                     }
-    //                     console.log(jsonarray);
+    //                     console.log(results);
 
     //             }, this);
     //             mParameters['error'] = jQuery.proxy(function(data) {
@@ -119,46 +103,38 @@ sap.ui.controller("sap.ui.company.view.master", {
         	    
         	    
                  var depArray1 =
-// {name:"人力资源部",
-// 	list:[
-// // 	{name:"安健环部",list:[{name:"新组织单位",oType:"O"}],
-// // 	oType:"O"}
-// 	{name:"安健环部",list:[{name:"计划发展部1",
-// 		tables:[{gangwei:"副总经理1",geshu:"1"},{gangwei:"副主任",geshu:"1"},{gangwei:"计划投资专职",geshu:"1"},{gangwei:"统计专职",geshu:"1"}],
-// 	oType:"O"}],
-// 	oType:"O"}
 
-// 	,
-// 	{name:"计划发展部1",
-// 		tables:[{gangwei:"副总经理1",geshu:"1"},{gangwei:"副主任",geshu:"1"},{gangwei:"计划投资专职",geshu:"1"},{gangwei:"统计专职",geshu:"1"}],
-// 	oType:"O"}
-// 	],
-// oType:"O"};
 		            {name:"abc", list:[
-                	{name:"总经理工作部",list:[{name:"二级部门1",list:[{name:"三级子部门1",tables:[{gangwei:"q3","geShu":"2"},{gangwei:"q32","geShu":"3"}]}]},],oType:"O"},//,{name:"二级部门2",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"}]}
-                	{name:"人力资源部",list:[{name:"人资2"},{name:"人资3"}],oType:"O"},
-                	{name:"燃料部",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"},],oType:"O"}
+                	{name:"总经理工作部",list:[{name:"人资2",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}]},{name:"人资3",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}]}],oType:"O"},//,{name:"二级部门2",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"}]}
+                	{name:"人力资源部",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}],oType:"O"},
+                	{name:"人力资源部",list:[{name:"人资2",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}]},{name:"人资3",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}]}],oType:"O"},
+                    {name:"人力资源部",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}],oType:"O"},
+                	{name:"燃料部",list:[{name:"燃料1",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"},]}],oType:"O"}
                 ]};
-            // var depArray1=
+
                     
                 var oModel = new sap.ui.model.json.JSONModel();
                 oModel.setData({modelDataA: depArray1});
-                var htmls = '<div class="" style="display:inline-block;width: 250px;margin-top: 7px;padding: 5px;"><span id="nameHead"></span><span style="padding-left:20px" id="com_content_title"></span></div><div class="line-v" ><span></span></div><div class="strt-block" id="strt_block_table" ><div style="clear:both;"></div></div>';
+                var htmls = '<div class="" style="display:inline-block;width: 250px;margin-top: 7px;padding: 5px;"><span id="nameHead"></span></div><div class="line-v" ><span></span></div><div class="strt-block" id="strt_block_table" ><div style="clear:both;"></div></div>';
                 $('#htmlstrtpart').html(htmls);
                 sap.ui.controller("sap.ui.company.view.master")._drawPanel(999,999,999,999,depArray1);
-                // var oTextView = new sap.ui.commons.TextView({
-                //     text:depArray1.name
-                // });
-                // oTextView.placeAt("nameHead");
-                
-                var num =20;
+                var num =30;
                 var depArray = depArray1.list;
-                var len = depArray.length;
-                if(len>5){
-                    num = num* len;
-                    var sty = num+"%";
-                    document.getElementById('strt_block_table').style.width=sty;
-                } 
+                var len =depArray.length;
+                var nums=0;
+                if(depArray!=null){
+                    for(var i=0;i<depArray.length;i++){
+                        if(depArray[i].list!=null){
+                            nums+=depArray[i].list.length;
+                        }
+                    }
+                }
+                if(nums!=0){
+                   len=len+nums; 
+                }
+                num = num* len;
+                var sty = num+"%";
+                document.getElementById('strt_block_table').style.width=sty;
                 $("#strt_block_table").empty(); 
                 sap.ui.controller("sap.ui.company.view.master")._drawDiv(depArray,'#strt_block_table');
 
@@ -257,30 +233,29 @@ sap.ui.controller("sap.ui.company.view.master", {
                         if(list!=undefined){
                             html+='<div class="line-v"><span></span></div><div class="strt-block" >';
                             for(var k=0;k<list.length;k++){
-                                
                                 if(k==0){
                                     if(list.length==1){
                                         html+='<div class="strt-part"><span class="line-h"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                     }else{
                                         html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                     }
-                                    var list3 = list[k].list;
-                                    if(list3!=undefined){
-                                        html+='<div class="line-v"><span></span></div><div class="strt-block" >';
-                                        if(list3.length==1){
-                                            for(var m=0;m<list3.length;m++){
-                                                if(m==0){
-                                                    if(list3.length==1){
-                                                        html+='<div class="strt-part"><span class="line-h"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
-                                                    }else{
-                                                        html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
-                                                    }
-                                                }
-                                            }
+                                    // var list3 = list[k].list;
+                                    // if(list3!=undefined){
+                                    //     html+='<div class="line-v"><span></span></div><div class="strt-block" >';
+                                    //     if(list3.length==1){
+                                    //         for(var m=0;m<list3.length;m++){
+                                    //             if(m==0){
+                                    //                 if(list3.length==1){
+                                    //                     html+='<div class="strt-part"><span class="line-h"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
+                                    //                 }else{
+                                    //                     html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
+                                    //                 }
+                                    //             }
+                                    //         }
                                             
-                                        }
-                                        html+='</div>';
-                                    }
+                                    //     }
+                                    //     html+='</div>';
+                                    // }
                                     // console.log(html);
                                 }else if(k==list.length-1){
                                         html+='<div class="strt-part"><span class="line-h line-h-l"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
@@ -297,7 +272,12 @@ sap.ui.controller("sap.ui.company.view.master", {
                             html+='<div class="line-v"><span></span></div><div class="strt-block" >';
                             for(var k=0;k<list.length;k++){
                                 if(k==0){
-                                    html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
+                                    if(list.length==1){
+                                        html+='<div class="strt-part"><span class="line-h"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
+                                    }else{
+                                        html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
+                                    }
+                                   // html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                 }else if(k==list.length-1){
                                         html+='<div class="strt-part"><span class="line-h line-h-l"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                 }else{
@@ -311,7 +291,12 @@ sap.ui.controller("sap.ui.company.view.master", {
                             html+='<div class="line-v"><span></span></div><div class="strt-block" >';
                             for(var k=0;k<list.length;k++){
                                 if(k==0){
-                                html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
+                                    if(list.length==1){
+                                        html+='<div class="strt-part"><span class="line-h"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
+                                    }else{
+                                        html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
+                                    }
+                                //html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                 }else if(k==list.length-1){
                                         html+='<div class="strt-part"><span class="line-h line-h-l"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                 }else{
@@ -324,7 +309,7 @@ sap.ui.controller("sap.ui.company.view.master", {
                     html+='</div>';
                     
                 }
-                console.log(html);
+                // console.log(html);
                 $('#strt_block_table').html(html);
                 // console.log(html);
                 for(var j=0;j<depArray.length;j++){

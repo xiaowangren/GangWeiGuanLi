@@ -83,60 +83,50 @@ sap.ui.controller("sap.ui.company.view.master", {
         	    var day = dateValue.substring(8,10);
         	    var dateNew = year+month+day;
         	    var bianHao = sap.ui.getCore().byId("input0").getValue();
-                //配置服务器
-				// var sServiceUrl = "/sap/opu/odata/SAP/ZHRMAP_SRV/";
-    //             var oModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true);
-    //             sap.ui.getCore().setModel(oModel);
-    //             var jModel = new sap.ui.model.json.JSONModel();
-    //             var mParameters = {};
-    //             mParameters['async'] = true;
-    //                 mParameters['success'] = jQuery.proxy(function(data) {
-    //                     var results = data.results;
-    //                     console.log(results);
-
-    //             }, this);
-    //             mParameters['error'] = jQuery.proxy(function(data) {
-    //                 sap.m.MessageToast.show("网络连接失败，请重试");
-    //             }, this);
-        	        
-    //             oModel.read("/OM_POST_MAP_SET",mParameters);   // ?$filter=(Status eq 'READY' and TaskDefinitionName eq '请假申请审批')	
-        	    
-        	    
-                 var depArray1 =
-
-		            {name:"abc", list:[
-                	{name:"总经理工作部",list:[{name:"人资2",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}]},{name:"人资3",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}]}],oType:"O"},//,{name:"二级部门2",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"}]}
-                	{name:"人力资源部",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}],oType:"O"},
-                	{name:"人力资源部",list:[{name:"人资2",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}]},{name:"人资3",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}]}],oType:"O"},
-                    {name:"人力资源部",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"}],oType:"O"},
-                	{name:"燃料部",list:[{name:"燃料1",tables:[{gangwei:"q","geShu":"2"},{gangwei:"4","geShu":"3"},{gangwei:"4","geShu":"3"},]}],oType:"O"}
-                ]};
-
-                    
-                var oModel = new sap.ui.model.json.JSONModel();
-                oModel.setData({modelDataA: depArray1});
-                var htmls = '<div class="" style="display:inline-block;width: 250px;margin-top: 7px;padding: 5px;"><span id="nameHead"></span></div><div class="line-v" ><span></span></div><div class="strt-block" id="strt_block_table" ><div style="clear:both;"></div></div>';
-                $('#htmlstrtpart').html(htmls);
-                sap.ui.controller("sap.ui.company.view.master")._drawPanel(999,999,999,999,depArray1);
-                var num =30;
-                var depArray = depArray1.list;
-                var len =depArray.length;
-                var nums=0;
-                if(depArray!=null){
-                    for(var i=0;i<depArray.length;i++){
-                        if(depArray[i].list!=null){
-                            nums+=depArray[i].list.length;
+             //   配置服务器
+				var sServiceUrl = "/sap/opu/odata/SAP/ZHRMAP_SRV/";
+                var oModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true);
+                sap.ui.getCore().setModel(oModel);
+                var jModel = new sap.ui.model.json.JSONModel();
+                var mParameters = {};
+                mParameters['async'] = true;
+                    mParameters['success'] = jQuery.proxy(function(data) {
+                        var results = data.results;
+                        var depArray1 = eval('(' + results[0].Retstr + ')');
+                        var htmls = '<div class="" style="display:inline-block;width: 250px;margin-top: 7px;padding: 5px;"><span id="nameHead"></span></div><div class="line-v" ><span></span></div><div class="strt-block" id="strt_block_table" ><div style="clear:both;"></div></div>';
+                        $('#htmlstrtpart').html(htmls);
+                        sap.ui.controller("sap.ui.company.view.master")._drawPanel(999,999,999,999,depArray1);
+                        var num =20;
+                        var depArray = depArray1.list;
+                        var len =depArray.length;
+                        
+                        var nums=0;
+                        if(depArray!=null){
+                            for(var i=0;i<depArray.length;i++){
+                                if(depArray[i].list!=null){
+                                    nums+=depArray[i].list.length;
+                                }
+                            }
                         }
-                    }
-                }
-                if(nums!=0){
-                   len=len+nums; 
-                }
-                num = num* len;
-                var sty = num+"%";
-                document.getElementById('strt_block_table').style.width=sty;
-                $("#strt_block_table").empty(); 
-                sap.ui.controller("sap.ui.company.view.master")._drawDiv(depArray,'#strt_block_table');
+                        if(nums!=0){
+                           len=len+nums; 
+                        }
+                        num = num* len;
+                        var sty = num+"%";
+                        console.log(sty);
+                        document.getElementById('strt_block_table').style.width=sty;
+                        console.log(document.getElementById('strt_block_table').style.width);
+
+                        $("#strt_block_table").empty(); 
+                        sap.ui.controller("sap.ui.company.view.master")._drawDiv(depArray,'#strt_block_table');
+
+                }, this);
+                mParameters['error'] = jQuery.proxy(function(data) {
+                    sap.m.MessageToast.show("网络连接失败，请重试");
+                }, this);
+        	        
+                oModel.read("/OM_POST_MAP_SET/?$filter=Objid eq '10003001'",mParameters);
+                
 
         	}
         });
@@ -150,12 +140,6 @@ sap.ui.controller("sap.ui.company.view.master", {
 	
 	_drawTable:function(divIndex2,divIndex3,divIndex4,divIndex5,obj){
         var oTable = null;
-        // sap.ui.getCore().byId("#test"+divIndex);
-        // if (oTable){
-        //     oTable.remove();
-        //     oTable = null;
-        //     alert('oTable');
-        // }
         oTable = new sap.ui.table.Table({
             //   id:"test"+divIndex,
         	title: obj.name,
@@ -186,32 +170,21 @@ sap.ui.controller("sap.ui.company.view.master", {
         oModel.setData({modelData: obj.tables});
         oTable.setModel(oModel);
         oTable.bindRows("/modelData");
-        // $("#com_content_table_"+divIndex).html('222');
-        // $("#__table2").remove();
-        // $("#__table2").empty();
-        // $("#__table2").destory();
         if(divIndex3==999&&divIndex4==999&&divIndex5==999){
-            oTable.placeAt("com_content_table_"+divIndex2);
+            oTable.placeAt("com_content_table_"+divIndex2,"only");
 	    }
 	    if(divIndex4==999&&divIndex5==999&&divIndex3!=999){
-            oTable.placeAt("com_content_table_"+divIndex2+"_"+divIndex3);
+            oTable.placeAt("com_content_table_"+divIndex2+"_"+divIndex3,"only");
 	    }
 	    if(divIndex4!=999&&divIndex5==999&&divIndex3!=999){
-	        oTable.placeAt("com_content_table_"+divIndex2+"_"+divIndex3+"_"+divIndex4);
+	        oTable.placeAt("com_content_table_"+divIndex2+"_"+divIndex3+"_"+divIndex4,"only");
 	    }
         if(divIndex4!=999&&divIndex5!=999&&divIndex3!=999){
-	        oTable.placeAt("com_content_table_"+divIndex2+"_"+divIndex3+"_"+divIndex4+"_"+divIndex5);
+	        oTable.placeAt("com_content_table_"+divIndex2+"_"+divIndex3+"_"+divIndex4+"_"+divIndex5,"only");
 	    } 
 	},
 	_drawDiv:function(depArray,div){
 	            var html = "";
-                var num =20;
-                var len = depArray.length;
-                    if(len>5){
-                      num = num* len;
-                      var sty = num+"%";
-                      document.getElementById('strt_block_table').style.width=sty;
-                    }
                 for(var i=0;i<depArray.length;i++){
                     html+='<div class="strt-part">';
                     if(i==0){
@@ -365,22 +338,21 @@ sap.ui.controller("sap.ui.company.view.master", {
         	    
 	},
 	_drawPanel:function(divIndex2,divIndex3,divIndex4,divIndex5,obj){
-	   // console.log(obj.name);
 	    var standardListItem = new sap.m.StandardListItem({title:obj.name});
 	    if(divIndex2==999&&divIndex3==999&&divIndex4==999&&divIndex5==999){
-	        standardListItem.placeAt("nameHead");
+	        standardListItem.placeAt("nameHead","only");
 	    }
 	    if(divIndex2!=999&&divIndex3==999&&divIndex4==999&&divIndex5==999){
-            standardListItem.placeAt("com_content_table_"+divIndex2);
+            standardListItem.placeAt("com_content_table_"+divIndex2,"only");
 	    }
 	    if(divIndex2!=999&&divIndex4==999&&divIndex5==999&&divIndex3!=999){
-            standardListItem.placeAt("com_content_table_"+divIndex2+"_"+divIndex3);
+            standardListItem.placeAt("com_content_table_"+divIndex2+"_"+divIndex3,"only");
 	    }
 	    if(divIndex2!=999&&divIndex4!=999&&divIndex5==999&&divIndex3!=999){
-	        standardListItem.placeAt("com_content_table_"+divIndex2+"_"+divIndex3+"_"+divIndex4);
+	        standardListItem.placeAt("com_content_table_"+divIndex2+"_"+divIndex3+"_"+divIndex4,"only");
 	    }
         if(divIndex2!=999&&divIndex4!=999&&divIndex5!=999&&divIndex3!=999){
-	        standardListItem.placeAt("com_content_table_"+divIndex2+"_"+divIndex3+"_"+divIndex4+"_"+divIndex5);
+	        standardListItem.placeAt("com_content_table_"+divIndex2+"_"+divIndex3+"_"+divIndex4+"_"+divIndex5,"only");
 	    }    
 	}    
 	

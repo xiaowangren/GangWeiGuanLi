@@ -41,6 +41,8 @@ sap.ui.controller("sap.ui.company.view.master", {
         var oButton1 = new sap.ui.commons.Button({
         	text : "选择组织单元",
         	press : function() {
+        	    var oInput0 = sap.ui.getCore().byId("input0");
+        	    var oInput1 = sap.ui.getCore().byId("input1");
         	    var oDialog1 = new sap.ui.commons.Dialog();
         	    oDialog1.setWidth("500px");
             	oDialog1.setTitle("选择组织单元");
@@ -51,7 +53,12 @@ sap.ui.controller("sap.ui.company.view.master", {
                      }) ],  
                      selectionMode : sap.ui.table.SelectionMode.Single,  
                      enableColumnReordering : true, 
-                     cellClick:function(){alert("ssss");}
+                     cellClick:function(oEvent){
+                         var text = oEvent.getParameters().cellControl.mProperties.text;
+                         oInput0.setValue("sss");
+                         oInput1.setValue(text);
+                         oDialog1.close();
+                     }
                 }); 
                 oTreeTable.setColumnHeaderVisible(false);
                 var sServiceUrl = "/sap/opu/odata/sap/ZBILLYTREETABLE01_SRV/";  
@@ -71,7 +78,10 @@ sap.ui.controller("sap.ui.company.view.master", {
             	oDialog1.addContent(oTreeTable);
             	
             	
-            	oDialog1.addButton(new sap.ui.commons.Button({text: "OK", press:function(){oDialog1.close();}}));
+            // 	oDialog1.addButton(new sap.ui.commons.Button({text: "OK", 
+            // 	    press:function(oEvent){
+            	        
+            // 	        oDialog1.close();}}));
             	oDialog1.open();
         	    
         	}

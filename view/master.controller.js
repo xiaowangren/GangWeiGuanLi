@@ -47,27 +47,30 @@ sap.ui.controller("sap.ui.company.view.master", {
         	    oDialog1.setWidth("500px");
             	oDialog1.setTitle("选择组织单元");
             	var oTreeTable = new sap.ui.table.TreeTable({  
-                     columns : [ new sap.ui.table.Column({  
-                     label : "Name",  
+                     columns : [ 
+                     new sap.ui.table.Column({  
+                     label : "Name", 
                      template : "Name"  
-                     }) ],  
+                     })],  
                      selectionMode : sap.ui.table.SelectionMode.Single,  
                      enableColumnReordering : true, 
                      cellClick:function(oEvent){
+                         var sPath = oEvent.getParameters().cellControl.mBindingInfos.text.binding.oContext.sPath;
+                         var sPats = sPath.split("'");
                          var text = oEvent.getParameters().cellControl.mProperties.text;
-                         oInput0.setValue("sss");
+                         oInput0.setValue(sPats[1]);
                          oInput1.setValue(text);
                          oDialog1.close();
                      }
                 }); 
                 oTreeTable.setColumnHeaderVisible(false);
-                var sServiceUrl = "/sap/opu/odata/sap/ZBILLYTREETABLE01_SRV/";  
+                var sServiceUrl = "/sap/opu/odata/sap/ZBILLYTREETABLE01_SRV/";//  /sap/opu/odata/sap/ZBILLYTREETABLE01_SRV/
+                ///sap/opu/odata/SAP/ZHRMAP_SRV/
                 var oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, { useBatch : true });
                 oTreeTable.setModel(oModel);  
-           
                  //annotation service binding  
                  oTreeTable.bindRows({  
-                 path : "/NodeSet",  
+                 path : "/OM_ORG_TREE_SET",  
                  parameters : {  
                  countMode: "Inline",  
                  numberOfExpandedLevels : 0  
@@ -76,12 +79,6 @@ sap.ui.controller("sap.ui.company.view.master", {
             	
             	
             	oDialog1.addContent(oTreeTable);
-            	
-            	
-            // 	oDialog1.addButton(new sap.ui.commons.Button({text: "OK", 
-            // 	    press:function(oEvent){
-            	        
-            // 	        oDialog1.close();}}));
             	oDialog1.open();
         	    
         	}
@@ -127,14 +124,14 @@ sap.ui.controller("sap.ui.company.view.master", {
         	tooltip : "查询",
         	width:"100px",
         	press : function() {
-        	     
-        	    var dateValue = sap.ui.getCore().byId("dateQuery").getValue();
+        	    var dateId = sap.ui.getCore().byId("dateQuery");
+        	    var dateValue = dateId.getValue();
         	    var year = dateValue.substring(0,4);
         	    var month = dateValue.substring(5,7);
         	    var day = dateValue.substring(8,10);
         	    var dateNew = year+month+day;
         	    var bianHao = sap.ui.getCore().byId("input0").getValue();
-             //   配置服务器
+                //   配置服务器
 				var sServiceUrl = "/sap/opu/odata/SAP/ZHRMAP_SRV/";
                 var oModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true);
                 sap.ui.getCore().setModel(oModel);
@@ -142,41 +139,46 @@ sap.ui.controller("sap.ui.company.view.master", {
                 var mParameters = {};
                 mParameters['async'] = true;
                     mParameters['success'] = jQuery.proxy(function(data) {
+                        dateId.setValue(dateValue);
                         var results = data.results;
-                        var depArray1 = eval('(' + results[0].Retstr + ')');
-                        var htmls = '<div class="" style="display:inline-block;width: 250px;margin-top: 7px;padding: 5px;"><span id="nameHead"></span></div><div class="line-v" ><span></span></div><div class="strt-block" id="strt_block_table" ><div style="clear:both;"></div></div>';
-                        $('#htmlstrtpart').html(htmls);
-                        sap.ui.controller("sap.ui.company.view.master")._drawPanel(999,999,999,999,depArray1);
-                        var num =20;
-                        var depArray = depArray1.list;
-                        var len =depArray.length;
-                        
-                        var nums=0;
-                        if(depArray!=null){
-                            for(var i=0;i<depArray.length;i++){
-                                if(depArray[i].list!=null){
-                                    nums+=depArray[i].list.length;
+                        console.log(results);
+                        if(results.length!=0){
+                            var htmls = '<div class="" style="display:inline-block;width: 500px;margin-top: 7px;padding: 5px;"><span id="nameHead"></span></div><div class="line-v" ><span></span></div><div class="strt-block" id="strt_block_table" ><div style="clear:both;"></div></div>';
+                            $('#htmlstrtpart').html(htmls);
+                            var depArray1 = eval('(' + results[0].Retstr + ')');
+                            sap.ui.controller("sap.ui.company.view.master")._drawPanel(999,999,999,999,depArray1);
+                            var num =20;
+                            var depArray = depArray1.list;
+                            var nums=0;
+                            var len=1;
+                            if(depArray!=null){
+                                len =depArray.length;
+                                for(var i=0;i<depArray.length;i++){
+                                    if(depArray[i].list!=null){
+                                        nums+=depArray[i].list.length;
+                                    }
                                 }
                             }
+                            if(nums!=0){
+                               len=len+nums; 
+                            }
+                            num = num* len;
+                            var sty = num+"%";
+                            document.getElementById('strt_block_table').style.width=sty;
+                            console.log(document.getElementById('strt_block_table').style.width);
+    
+                            $("#strt_block_table").empty(); 
+                            if(depArray!=undefined){
+                                sap.ui.controller("sap.ui.company.view.master")._drawDiv(depArray,'#strt_block_table');
+                            }
+                            
                         }
-                        if(nums!=0){
-                           len=len+nums; 
-                        }
-                        num = num* len;
-                        var sty = num+"%";
-                        console.log(sty);
-                        document.getElementById('strt_block_table').style.width=sty;
-                        console.log(document.getElementById('strt_block_table').style.width);
-
-                        $("#strt_block_table").empty(); 
-                        sap.ui.controller("sap.ui.company.view.master")._drawDiv(depArray,'#strt_block_table');
-
                 }, this);
                 mParameters['error'] = jQuery.proxy(function(data) {
                     sap.m.MessageToast.show("网络连接失败，请重试");
                 }, this);
         	        
-                oModel.read("/OM_POST_MAP_SET/?$filter=Objid eq '10003001'",mParameters);
+                oModel.read("/OM_POST_MAP_SET/?$filter=Objid eq '50000025'",mParameters);
                 
 
         	}

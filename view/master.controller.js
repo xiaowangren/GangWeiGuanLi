@@ -155,13 +155,15 @@ sap.ui.controller("sap.ui.company.view.master", {
                                 for(var i=0;i<depArray.length;i++){
                                     if(depArray[i].list!=null){
                                         nums+=depArray[i].list.length;
+                                    }else{
+                                        nums = depArray.length;
                                     }
                                 }
                             }
                             if(nums!=0){
                                len=len+nums; 
                             }
-                            num = num* len;
+                            num = num*len;
                             var sty = num+"%";
                             document.getElementById('strt_block_table').style.width=sty;
                             // console.log(document.getElementById('strt_block_table').style.width);

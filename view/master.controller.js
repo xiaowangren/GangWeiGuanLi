@@ -64,7 +64,7 @@ sap.ui.controller("sap.ui.company.view.master", {
                      }
                 }); 
                 oTreeTable.setColumnHeaderVisible(false);
-                var sServiceUrl = "/sap/opu/odata/sap/ZBILLYTREETABLE01_SRV/";//  /sap/opu/odata/sap/ZBILLYTREETABLE01_SRV/
+                var sServiceUrl = "/sap/opu/odata/SAP/ZHRMAP_SRV/";//  /sap/opu/odata/sap/ZBILLYTREETABLE01_SRV/
                 ///sap/opu/odata/SAP/ZHRMAP_SRV/
                 var oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, { useBatch : true });
                 oTreeTable.setModel(oModel);  
@@ -139,15 +139,14 @@ sap.ui.controller("sap.ui.company.view.master", {
                 var mParameters = {};
                 mParameters['async'] = true;
                     mParameters['success'] = jQuery.proxy(function(data) {
-                        dateId.setValue(dateValue);
                         var results = data.results;
                         console.log(results);
                         if(results.length!=0){
-                            var htmls = '<div class="" style="display:inline-block;width: 500px;margin-top: 7px;padding: 5px;"><span id="nameHead"></span></div><div class="line-v" ><span></span></div><div class="strt-block" id="strt_block_table" ><div style="clear:both;"></div></div>';
+                            var htmls = '<div class="" style="display:inline-block;width: 450px;margin-top: 7px;padding: 5px;"><span id="nameHead"></span></div><div class="line-v" ><span></span></div><div class="strt-block" id="strt_block_table" ><div style="clear:both;"></div></div>';
                             $('#htmlstrtpart').html(htmls);
                             var depArray1 = eval('(' + results[0].Retstr + ')');
                             sap.ui.controller("sap.ui.company.view.master")._drawPanel(999,999,999,999,depArray1);
-                            var num =20;
+                            var num =25;
                             var depArray = depArray1.list;
                             var nums=0;
                             var len=1;
@@ -165,22 +164,32 @@ sap.ui.controller("sap.ui.company.view.master", {
                             num = num* len;
                             var sty = num+"%";
                             document.getElementById('strt_block_table').style.width=sty;
-                            console.log(document.getElementById('strt_block_table').style.width);
+                            // console.log(document.getElementById('strt_block_table').style.width);
     
                             $("#strt_block_table").empty(); 
                             if(depArray!=undefined){
                                 sap.ui.controller("sap.ui.company.view.master")._drawDiv(depArray,'#strt_block_table');
                             }
                             
+                        }else{
+                            $('#htmlstrtpart').empty(); 
+                            $("#strt_block_table").empty();
+                            sap.m.MessageToast.show("无数据显示");
                         }
                 }, this);
                 mParameters['error'] = jQuery.proxy(function(data) {
                     sap.m.MessageToast.show("网络连接失败，请重试");
                 }, this);
-        	        
-                oModel.read("/OM_POST_MAP_SET/?$filter=Objid eq '50000025'",mParameters);
-                
-
+                dateId.setValue(dateValue);
+                if(dateNew==""){
+                    sap.m.MessageToast.show("查询日期必填");
+                    return;
+                }
+                if(bianHao==""){
+                    sap.m.MessageToast.show("组织单元必填");
+                    return;
+                }
+                oModel.read("/OM_POST_MAP_SET/?$filter=Objid eq '"+bianHao+"' and Begda eq '"+dateNew+"'",mParameters);
         	}
         });
         // attach it to some element in the page
@@ -209,12 +218,12 @@ sap.ui.controller("sap.ui.company.view.master", {
         oTable.addColumn(oColumn);
         oTable.addColumn(new sap.ui.table.Column({
         	label: new sap.ui.commons.Label({text: "职位"}),
-        	template: new sap.ui.commons.TextField().bindProperty("value", "geShu"),
+        	template: new sap.ui.commons.TextField().bindProperty("value", "geshu"),
         	width: "12px"
         }));
         oTable.addColumn(new sap.ui.table.Column({
         	label: new sap.ui.commons.Label({text: "岗级"}),
-        	template: new sap.ui.commons.TextField().bindProperty("value", "num2"),
+        	template: new sap.ui.commons.TextField().bindProperty("value", "gangji"),
         	width: "12px"
         }));
         

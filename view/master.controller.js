@@ -46,12 +46,13 @@ sap.ui.controller("sap.ui.company.view.master", {
         	    var oDialog1 = new sap.ui.commons.Dialog();
         	    oDialog1.setWidth("500px");
             	oDialog1.setTitle("选择组织单元");
+            	var Column = new sap.ui.table.Column({ label : "Name", 
+            	    template :new sap.ui.commons.TextView().bindProperty("text", "Name")
+            	});
+            	
+            	
             	var oTreeTable = new sap.ui.table.TreeTable({  
-                     columns : [ 
-                     new sap.ui.table.Column({  
-                     label : "Name", 
-                     template : "Name"  
-                     })],  
+                     columns : [ Column ],  
                      selectionMode : sap.ui.table.SelectionMode.Single,  
                      enableColumnReordering : true, 
                      cellClick:function(oEvent){
@@ -76,10 +77,10 @@ sap.ui.controller("sap.ui.company.view.master", {
                  numberOfExpandedLevels : 0  
                  }  
                  });
-            	
-            	
+                
             	oDialog1.addContent(oTreeTable);
             	oDialog1.open();
+            	
         	    
         	}
         });

@@ -140,19 +140,22 @@ sap.ui.controller("sap.ui.company.view.master", {
                             $("#strt_block_table").empty(); 
                             if(depArray!=undefined){
                                 sap.ui.controller("sap.ui.company.view.master")._drawDiv(depArray,'#strt_block_table');
+                            }else{
+                                $('#htmlstrtpart').empty(); 
+                                $("#strt_block_table").empty();
+                                sap.m.MessageToast.show("无数据显示");
                             }
-                            
                         }else{
                             $('#htmlstrtpart').empty(); 
                             $("#strt_block_table").empty();
-                            sap.m.MessageToast.show("无数据显示");
+                            sap.m.MessageToast.show("数据返回异常");
                         }
                 }, this);
                 mParameters['error'] = jQuery.proxy(function(data) {
                     sap.m.MessageToast.show("网络连接失败，请重试");
                 }, this);
                 dateId.setValue(dateValue);
-                if(dateNew==""){
+                if(dateValue==""){
                     sap.m.MessageToast.show("查询日期必填");
                     return;
                 }

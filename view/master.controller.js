@@ -49,19 +49,24 @@ sap.ui.controller("sap.ui.company.view.master", {
             	var Column = new sap.ui.table.Column({ label : "Name", 
             	    template :new sap.ui.commons.TextView().bindProperty("text", "Name")
             	});
-            	
-            	
+            // 	var Column1 = new sap.ui.table.Column({ label : "Flag9100", 
+            // 	    template :new sap.ui.commons.TextView().bindProperty("text", "Flag9100")
+            // 	});
             	var oTreeTable = new sap.ui.table.TreeTable({  
                      columns : [ Column ],  
                      selectionMode : sap.ui.table.SelectionMode.Single,  
                      enableColumnReordering : true, 
-                     cellClick:function(oEvent){
-                         var sPath = oEvent.getParameters().cellControl.mBindingInfos.text.binding.oContext.sPath;
-                         var sPats = sPath.split("'");
-                         var text = oEvent.getParameters().cellControl.mProperties.text;
-                         oInput0.setValue(sPats[1]);
-                         oInput1.setValue(text);
-                         oDialog1.close();
+                     selectionBehavior:sap.ui.table.SelectionBehavior.RowOnly,
+                     rowSelectionChange:function(oEvent){
+                        var sPath = oEvent.getParameters().rowContext.sPath;
+                        var data  = oModel.getProperty(sPath);
+                        if(data.Flag9100 =="X"){
+                            oInput0.setValue(data.Id);
+                            oInput1.setValue(data.Name);
+                            oDialog1.close(); 
+                         }else{
+                            sap.m.MessageToast.show("请选到单位层级"); 
+                         }
                      }
                 }); 
                 oTreeTable.setColumnHeaderVisible(false);
@@ -69,7 +74,6 @@ sap.ui.controller("sap.ui.company.view.master", {
                 ///sap/opu/odata/SAP/ZHRMAP_SRV/
                 var oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, { useBatch : true });
                 oTreeTable.setModel(oModel);  
-                 //annotation service binding  
                  oTreeTable.bindRows({  
                  path : "/OM_ORG_TREE_SET",  
                  parameters : {  
@@ -84,39 +88,6 @@ sap.ui.controller("sap.ui.company.view.master", {
         	    
         	}
         });
-	   // //Create a MenuButton Control
-    //     var oMenuButton = new sap.ui.commons.MenuButton("menuButton",{text: "选择组织单元"}); 
-    //     //Create the menu
-    //     var oMenu1 = new sap.ui.commons.Menu();
-    //     //Create the items and add them to the menu
-    //     var oMenuItem1 = new sap.ui.commons.MenuItem({text: "New",tooltip: "1001",select:this.handleMenuItemPress}); //Icon must be not larger than 16x16 px
-    //     oMenu1.addItem(oMenuItem1);
-    //     var oMenuItem2 = new sap.ui.commons.MenuItem({text: "Delete",tooltip: "1002",select:this.handleMenuItemPress});
-    //     oMenu1.addItem(oMenuItem2);
-    //     var oMenuItem3 = new sap.ui.commons.MenuItem({text: "Properties",tooltip: "1003",select:this.handleMenuItemPress});
-    //     oMenu1.addItem(oMenuItem3);
-    //     //Create a sub menu for item 1
-    //     var oMenu2 = new sap.ui.commons.Menu();
-    //     oMenuItem1.setSubmenu(oMenu2);
-    //     //Create the items and add them to the sub menu
-    //     var oMenuItem4 = new sap.ui.commons.MenuItem({text: "TXT",tooltip: "1004"});
-    //     oMenu2.addItem(oMenuItem4);
-    //     var oMenuItem5 = new sap.ui.commons.MenuItem({text: "RAR",tooltip: "1005"});
-    //     oMenu2.addItem(oMenuItem5);
-        
-    //     //Create a sub menu for item 1
-    //     var oMenu3 = new sap.ui.commons.Menu();
-    //     oMenuItem2.setSubmenu(oMenu3);
-    //     //Create the items and add them to the sub menu
-    //     var oMenuItem6 = new sap.ui.commons.MenuItem({text: "ABC"});
-    //     oMenu3.addItem(oMenuItem6);
-    //     var oMenuItem7 = new sap.ui.commons.MenuItem({text: "DEF"});
-    //     oMenu3.addItem(oMenuItem7);
-
-    //     //Attach the Menu to the MenuButton
-    //     oMenuButton.setMenu(oMenu1);
-        
-        //Attach the MenuButton to the page
         oButton1.placeAt("zuZhiDanYanBianMaForm");
 	},
 	_drawButton:function(){
@@ -141,7 +112,6 @@ sap.ui.controller("sap.ui.company.view.master", {
                 mParameters['async'] = true;
                     mParameters['success'] = jQuery.proxy(function(data) {
                         var results = data.results;
-                        console.log(results);
                         if(results.length!=0){
                             var htmls = '<div class="" style="display:inline-block;width: 450px;margin-top: 7px;padding: 5px;"><span id="nameHead"></span></div><div class="line-v" ><span></span></div><div class="strt-block" id="strt_block_table" ><div style="clear:both;"></div></div>';
                             $('#htmlstrtpart').html(htmls);
@@ -167,8 +137,6 @@ sap.ui.controller("sap.ui.company.view.master", {
                             num = num*len;
                             var sty = num+"%";
                             document.getElementById('strt_block_table').style.width=sty;
-                            // console.log(document.getElementById('strt_block_table').style.width);
-    
                             $("#strt_block_table").empty(); 
                             if(depArray!=undefined){
                                 sap.ui.controller("sap.ui.company.view.master")._drawDiv(depArray,'#strt_block_table');
@@ -253,7 +221,6 @@ sap.ui.controller("sap.ui.company.view.master", {
                 for(var i=0;i<depArray.length;i++){
                     html+='<div class="strt-part">';
                     if(i==0){
-                        // console.log(depArray[i].list.length);
                         if(depArray.length==1){
                             html+='<span class="line-h">';
                         }else{
@@ -277,24 +244,6 @@ sap.ui.controller("sap.ui.company.view.master", {
                                     }else{
                                         html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                     }
-                                    // var list3 = list[k].list;
-                                    // if(list3!=undefined){
-                                    //     html+='<div class="line-v"><span></span></div><div class="strt-block" >';
-                                    //     if(list3.length==1){
-                                    //         for(var m=0;m<list3.length;m++){
-                                    //             if(m==0){
-                                    //                 if(list3.length==1){
-                                    //                     html+='<div class="strt-part"><span class="line-h"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
-                                    //                 }else{
-                                    //                     html+='<div class="strt-part"><span class="line-h line-h-r"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'_'+m+'"></div></div>';
-                                    //                 }
-                                    //             }
-                                    //         }
-                                            
-                                    //     }
-                                    //     html+='</div>';
-                                    // }
-                                    // console.log(html);
                                 }else if(k==list.length-1){
                                         html+='<div class="strt-part"><span class="line-h line-h-l"></span><div class="line-v"><span></span></div><div class="strt-name-div" id="com_content_table_'+i+'_'+k+'"></div></div>';
                                 }else{
@@ -347,11 +296,8 @@ sap.ui.controller("sap.ui.company.view.master", {
                     html+='</div>';
                     
                 }
-                // console.log(html);
                 $('#strt_block_table').html(html);
-                // console.log(html);
                 for(var j=0;j<depArray.length;j++){
-                    // console.log(depArray[j].tables);
                     if(depArray[j].tables==undefined){
                         this._drawPanel(j,999,999,999,depArray[j]);
                     }else{
@@ -378,7 +324,6 @@ sap.ui.controller("sap.ui.company.view.master", {
                 }        
 	},
 	drawList3:function(html,list3,i,k){
-	    console.log(list3);
 	    if(list3!=undefined){
             html+='<div class="line-v"><span></span></div><div class="strt-block" >';
             for(var m=0;m<list3.length;m++){

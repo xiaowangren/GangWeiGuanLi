@@ -120,7 +120,7 @@ sap.ui.controller("sap.ui.company.view.master", {
                             $('#htmlstrtpart').html(htmls);
                             var depArray1 = eval('(' + results[0].Retstr + ')');
                             sap.ui.controller("sap.ui.company.view.master")._drawPanel(999,999,999,999,depArray1);
-                            var num =30;
+                            var num =25;
                             var depArray = depArray1.list;
                             var nums=0;
                             var len=1;
@@ -135,7 +135,7 @@ sap.ui.controller("sap.ui.company.view.master", {
                                 }
                             }
                             if(nums!=0){
-                               len=len+nums; 
+                               len=len+nums+2; 
                             }
                             num = num*len;
                             var sty = num+"%";

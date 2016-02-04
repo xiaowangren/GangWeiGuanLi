@@ -46,6 +46,9 @@ sap.ui.controller("sap.ui.company.view.master", {
         	    var oDialog1 = new sap.ui.commons.Dialog();
         	    oDialog1.setWidth("500px");
             	oDialog1.setTitle("选择组织单元");
+            	var Column0 = new sap.ui.table.Column({ label : "ID", 
+            	    template :new sap.ui.commons.TextView().bindProperty("text", "Id")
+            	});
             	var Column = new sap.ui.table.Column({ label : "Name", 
             	    template :new sap.ui.commons.TextView().bindProperty("text", "Name")
             	});
@@ -53,7 +56,7 @@ sap.ui.controller("sap.ui.company.view.master", {
             // 	    template :new sap.ui.commons.TextView().bindProperty("text", "Flag9100")
             // 	});
             	var oTreeTable = new sap.ui.table.TreeTable({  
-                     columns : [ Column ],  
+                     columns : [ Column0,Column ],  
                      selectionMode : sap.ui.table.SelectionMode.Single,  
                      enableColumnReordering : true, 
                      selectionBehavior:sap.ui.table.SelectionBehavior.RowOnly,
@@ -117,7 +120,7 @@ sap.ui.controller("sap.ui.company.view.master", {
                             $('#htmlstrtpart').html(htmls);
                             var depArray1 = eval('(' + results[0].Retstr + ')');
                             sap.ui.controller("sap.ui.company.view.master")._drawPanel(999,999,999,999,depArray1);
-                            var num =25;
+                            var num =30;
                             var depArray = depArray1.list;
                             var nums=0;
                             var len=1;
@@ -176,10 +179,14 @@ sap.ui.controller("sap.ui.company.view.master", {
 	
 	_drawTable:function(divIndex2,divIndex3,divIndex4,divIndex5,obj){
         var oTable = null;
+        var len = obj.tables.length;
+        if(len>10){
+            len=10;
+        }
         oTable = new sap.ui.table.Table({
             //   id:"test"+divIndex,
         	title: obj.name,
-        	visibleRowCount: 10
+        	visibleRowCount: len
         });
 
         //Define the columns and the control templates to be used
@@ -191,7 +198,7 @@ sap.ui.controller("sap.ui.company.view.master", {
 
         oTable.addColumn(oColumn);
         oTable.addColumn(new sap.ui.table.Column({
-        	label: new sap.ui.commons.Label({text: "职位"}),
+        	label: new sap.ui.commons.Label({text: "职数"}),
         	template: new sap.ui.commons.TextField().bindProperty("value", "geshu"),
         	width: "12px"
         }));

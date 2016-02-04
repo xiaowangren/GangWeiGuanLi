@@ -56,7 +56,7 @@ sap.ui.controller("sap.ui.company.view.master", {
             // 	    template :new sap.ui.commons.TextView().bindProperty("text", "Flag9100")
             // 	});
             	var oTreeTable = new sap.ui.table.TreeTable({  
-                     columns : [ Column0,Column ],  
+                     columns : [ Column,Column0 ],  
                      selectionMode : sap.ui.table.SelectionMode.Single,  
                      enableColumnReordering : true, 
                      selectionBehavior:sap.ui.table.SelectionBehavior.RowOnly,
